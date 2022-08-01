@@ -13,7 +13,7 @@ interface Image {
   description: string;
   url: string;
   ts: number;
-  id: string;
+  id: number;
 }
 
 interface GetImagesResponse {
@@ -43,9 +43,7 @@ export default function Home(): JSX.Element {
   });
 
   const formattedData = useMemo(() => {
-    const formatted = data?.pages.flatMap(imageData => {
-      return imageData.data.flat();
-    });
+    const formatted = data?.pages.flatMap(imageData => imageData.data.flat());
     return formatted;
   }, [data]);
 
@@ -53,7 +51,7 @@ export default function Home(): JSX.Element {
     return <Loading />;
   }
 
-  if (!isLoading && isError) {
+  if (isLoading && isError) {
     return <Error />;
   }
 
@@ -61,14 +59,18 @@ export default function Home(): JSX.Element {
     <>
       <Header />
 
-      <Box maxW={1120} px={[10, 15, 20]} mx="auto" my={[10, 15, 20]}>
+      <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
-
         {hasNextPage && (
-          <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          <Button
+            onClick={() => fetchNextPage}
+            disabled={isFetchingNextPage}
+            mt='6'
+          >
             {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
           </Button>
-        )}
+        )
+        }
       </Box>
     </>
   );

@@ -13,7 +13,7 @@ interface Image {
   description: string;
   url: string;
   ts: number;
-  id: string;
+  id: number;
 }
 
 interface GetImagesResponse {
@@ -43,9 +43,7 @@ export default function Home(): JSX.Element {
   });
 
   const formattedData = useMemo(() => {
-    const formatted = data?.pages.flatMap(imageData => {
-      return imageData.data.flat();
-    });
+    const formatted = data?.pages.flatMap(imageData => imageData.data.flat());
     return formatted;
   }, [data]);
 

@@ -13,7 +13,7 @@ interface Image {
   description: string;
   url: string;
   ts: number;
-  id: string;
+  id: number;
 }
 
 interface GetImagesResponse {
@@ -39,36 +39,24 @@ export default function Home(): JSX.Element {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery('images', fetchImages, {
-    getNextPageParam: lastPage => lastPage?.after || null,
+    getNextPageParam: (lastPage) => lastPage?.after || nulll,
   });
 
   const formattedData = useMemo(() => {
-    const formatted = data?.pages.flatMap(imageData => {
-      return imageData.data.flat();
-    });
-    return formatted;
+    // TODO FORMAT AND FLAT DATA ARRAY
   }, [data]);
 
-  if (isLoading && !isError) {
-    return <Loading />;
-  }
+  // TODO RENDER LOADING SCREEN
 
-  if (!isLoading && isError) {
-    return <Error />;
-  }
+  // TODO RENDER ERROR SCREEN
 
   return (
     <>
       <Header />
 
-      <Box maxW={1120} px={[10, 15, 20]} mx="auto" my={[10, 15, 20]}>
+      <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
-
-        {hasNextPage && (
-          <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
-          </Button>
-        )}
+        {/* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */}
       </Box>
     </>
   );
